@@ -1,14 +1,13 @@
 import streamlit as st
 import requests
-import json
 
-areacode = {"大阪": "270000", "東京": "130000"}
+areacode = {"大阪": "270000", "東京": "130000", "千葉": "120000"}
 
 st.title('天気予報アプリ')
 
 with st.sidebar:
     st.header('天気予報アプリ')
-    city = st.selectbox('地域', ('大阪', '東京'))
+    city = st.selectbox('地域', ('大阪', '東京', '千葉'))
 
 
 url = "https://www.jma.go.jp/bosai/forecast/data/forecast/" + areacode[city] + ".json"
