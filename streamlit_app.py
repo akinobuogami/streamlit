@@ -1,22 +1,23 @@
 import streamlit as st
+import requests
+import json
 
-st.header('st.write')
+areacode = {"大阪": "270000", "東京": "130000"}
 
-dict = {"apple":"red", "lemon":"yellow"}
-list = ["ogami", "akinobu", "kana", "ryo"]
+with st.sidebar:
+    st.header('天気予報アプリ')
+    city = st.selectbox('地域', ('大阪', '東京'))
 
-st.subheader('dict')
-st.write(dict)
 
-st.subheader('list')
-st.write(list)
+url = "https://www.jma.go.jp/bosai/forecast/data/forecast/" + areacode[city] + ".json"
 
-st.subheader('markdown')
-st.write('Hello, *World!* emoji')
+res = requests.get(url)
 
-a = 45
-b = 1234
-st.subheader('number')
-st.write(12)
-st.write(123.4567)
-st.write(a+b)
+jsondata = res.json()
+
+st.header("{}の天気予報".format(jsondata[0]['timeSeries'][0]['areas'][0]['area']['name']))
+for i in range(3):
+  st.subheader(jsondata[0]['timeSeries'][0]['timeDefines'][i][:10])
+  st.write(jsondata[0]['timeSeries'][0]['areas'][0]['weathers'][i])
+st.info("{}の最高気温は{}℃、最低気温は{}℃です".format(jsondata[0]['timeSeries'][2]['timeDefines'][0][:10], jsondata[0]['timeSeries'][2]['areas'][0]['temps'][1], jsondata[0]['timeSeries'][2]['areas'][0]['temps'][0]))
+
