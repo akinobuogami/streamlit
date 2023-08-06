@@ -17,7 +17,7 @@ res = requests.get(url)
 jsondata = res.json()
 
 st.header("{}の天気予報".format(jsondata[0]['timeSeries'][0]['areas'][0]['area']['name']))
-for i in range(3):
+for i in range(len(jsondata[0]['timeSeries'][0]['timeDefines'])):
   st.subheader(jsondata[0]['timeSeries'][0]['timeDefines'][i][:10])
   st.write(jsondata[0]['timeSeries'][0]['areas'][0]['weathers'][i])
 st.info("{}の最高気温は{}℃、最低気温は{}℃です".format(jsondata[0]['timeSeries'][2]['timeDefines'][0][:10], jsondata[0]['timeSeries'][2]['areas'][0]['temps'][1], jsondata[0]['timeSeries'][2]['areas'][0]['temps'][0]))
